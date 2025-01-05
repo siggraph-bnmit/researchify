@@ -1,0 +1,262 @@
+{
+  "faculty": [
+    {
+      "id": "1",
+      "name": "Dr. Krishnamurthy G N",
+      "publications": [
+        {
+          "type": "journal",
+          "year": 2023,
+          "title": "Machine learning-based approach for degree of milling analysis of Indian rice variety",
+          "authors": [
+            "S. Harini",
+            "Saritha Chakrasali",
+            "G.N. Krishnamurthy"
+          ],
+          "journal": "International Journal of Agriculture Innovation, Technology and Globalisation",
+          "date": "2023-11-28",
+          "pages": "177-192",
+          "doi": "10.1504/IJAITG.2023.135052",
+          "volume": "3",
+          "issue": "2",
+          "issn": "2516-1962",
+          "indexing": "non-SCI/scopus"
+        }
+      ],
+      "patents": [
+        {
+          "title": "An Integrated precision Agriculture and farm security system",
+          "applicationNumber": "202441001591",
+          "type": "utility",
+          "year": 2024
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Dr. Chayadevi M L",
+      "publications": [
+        {
+          "type": "journal",
+          "year": 2024,
+          "title": "Noise Reduction using Modified Central Frequency BWT and RLS filter",
+          "authors": [
+            "Shraddha C",
+            "Chayadevi M. L",
+            "Anusuya, M. A.",
+            "Vani H. Y"
+          ],
+          "journal": "International Journal of Intelligent Systems and Applications in Engineering",
+          "volume": "12",
+          "issue": "11s",
+          "pages": "512-521",
+          "issn": "2147-6799",
+          "date": "2024-01-11",
+          "indexing": "Scopus Q3"
+        },
+        {
+          "type": "journal",
+          "year": 2023,
+          "title": "Diagnosis and management of arrhythmia using machine learning",
+          "authors": [
+            "S. Pratyaksha",
+            "M.L. Chayadevi"
+          ],
+          "journal": "International Journal of Computer Applications in Technology",
+          "doi": "10.1504/IJCAT.2023.133039",
+          "date": "2023-08-27",
+          "volume": "72",
+          "issue": "2",
+          "issn": "0952-8091",
+          "indexing": "SCI-indexed, Scopus"
+        },
+        {
+          "type": "journal",
+          "year": 2024,
+          "title": "Text Detection from Image and Video Frames using Improved Golden Jackal Optimization based Shallow Convolutional Neural Network",
+          "authors": [
+            "Chitra M",
+            "M. L. Chayadevi",
+            "M. Rajani Shree",
+            "M. D. Swetha"
+          ],
+          "journal": "International Journal of Intelligent Engineering and Systems",
+          "volume": "17",
+          "issue": "5",
+          "doi": "10.22266/ijies2024.1031.06",
+          "year": 2024,
+          "indexing": "SCI-Q3"
+        }
+      ],
+      "conferences": [
+        {
+          "type": "conference",
+          "year": 2024,
+          "title": "Intelligent Plant Watering System: Smart city",
+          "authors": [
+            "P. Kusuma",
+            "S. Rajashree",
+            "M. L. Chayadevi",
+            "Mona",
+            "K. S. Shreedevi",
+            "S. Geetha"
+          ],
+          "conference": "International Conference on Emerging Technologies in Computer Science for Interdisciplinary Applications (ICETCS)",
+          "location": "Bengaluru, India",
+          "doi": "10.1109/ICETCS61022.2024.10543720",
+          "indexing": "Scopus"
+        },
+        {
+          "type": "conference",
+          "year": 2023,
+          "title": "Deep learning for cloud storage Security: A systematic review",
+          "authors": [
+            "Latha S S",
+            "Chayadevi"
+          ],
+          "conference": "International conference on Emerging Technology and sustainable solutions",
+          "acronym": "ICESS-2023",
+          "date": "2023-11-24"
+        }
+      ],
+      "patents": [
+        {
+          "title": "Protected Park: Cornerstone Of Trust In The Smart City",
+          "applicationNumber": "202441044898",
+          "type": "Utility",
+          "year": 2024
+        },
+        {
+          "title": "Iot Based Energy Efficient Smart Irrigation System",
+          "applicationNumber": "202441035983",
+          "type": "Utility",
+          "year": 2024
+        },
+        {
+          "title": "IoT Based on Automatic Suction for medical",
+          "applicationNumber": "416984-001",
+          "type": "Design",
+          "year": 2024
+        },
+        {
+          "title": "IoT Based Rechargeable Standee for Polio Eradication Survey",
+          "applicationNumber": "426309-001",
+          "type": "Design",
+          "year": 2024
+        },
+        {
+          "title": "Development of undersoil networked IOT devices for continuous monitoring in agricultural farms",
+          "applicationNumber": "202441014149",
+          "type": "Utility",
+          "status": "published",
+          "year": 2024
+        }
+      ],
+      "fdpOrganized": [
+        {
+          "title": "Website Development and Maintenance",
+          "startDate": "2023-09-19",
+          "endDate": "2023-09-21"
+        },
+        {
+          "title": "Sales Force Platform",
+          "startDate": "2023-09-11",
+          "endDate": "2023-09-15"
+        },
+        {
+          "title": "COCOON: Transforming Teachers into Effective Coaches and Mentors",
+          "startDate": "2023-08-07",
+          "endDate": "2023-08-11"
+        },
+        {
+          "title": "Advancements on cyber-Security & NLP",
+          "location": "BNMIT, Bangalore",
+          "startDate": "2024-06-24",
+          "endDate": "2024-06-28"
+        }
+      ],
+      "fdpAttended": [
+        {
+          "title": "Advancements on cyber-Security & NLP",
+          "location": "BNMIT, Bangalore",
+          "startDate": "2024-06-24",
+          "endDate": "2024-06-28"
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Dr. Anitha N",
+      "publications": [
+        {
+          "type": "journal",
+          "year": 2023,
+          "title": "An efficient reconfigurable workload balancing scheme for fog computing network using internet of things",
+          "authors": [
+            "Nandini Gowda Puttaswamy",
+            "Anitha Narasimha Murthy"
+          ],
+          "journal": "International Journal of Electrical and Computer Engineering",
+          "acronym": "IJECE",
+          "volume": "13",
+          "issue": "6",
+          "date": "2023-12",
+          "pages": "6525-6537",
+          "issn": "2088-8708",
+          "doi": "10.11591/ijece.v13i6.pp6525-6537",
+          "indexing": "Scopus-Q3"
+        },
+        {
+          "type": "journal",
+          "year": 2024,
+          "title": "A Comparative Review of Internet of Things Model Workload Distribution Techniques in Fog Computing Networks",
+          "authors": [
+            "Nandini G",
+            "Anitha N"
+          ],
+          "journal": "Information Dynamics and Applications",
+          "volume": "3",
+          "issue": "1",
+          "pages": "21-46",
+          "date": "2024-02",
+          "doi": "10.56578/ida030103",
+          "indexing": "UGC Care"
+        }
+      ],
+      "conferences": [
+        {
+          "type": "conference",
+          "year": 2024,
+          "title": "Feature Reduction Set for the Prediction of Renal Disease Using Ensemble Methods and Optimal Hyperplane Algorithms",
+          "authors": [
+            "Jayashree, M.",
+            "Anitha, N."
+          ],
+          "conference": "Data Science and Security",
+          "acronym": "IDSCS 2023",
+          "publisher": "Springer",
+          "series": "Lecture Notes in Networks and Systems",
+          "volume": "922",
+          "doi": "10.1007/978-981-97-0975-5_25",
+          "presentationDate": "2023-11",
+          "publicationDate": "2024-05-31"
+        }
+      ],
+      "bookChapters": [
+        {
+          "title": "Feature Reduction Set for the Prediction of Renal Disease Using Ensemble Methods and Optimal Hyperplane Algorithms",
+          "authors": [
+            "Jayashree, M.",
+            "Anitha, N."
+          ],
+          "book": "Data Science and Security",
+          "series": "Lecture Notes in Networks and Systems",
+          "volume": "922",
+          "publisher": "Springer",
+          "doi": "10.1007/978-981-97-0975-5_25",
+          "year": 2024
+        }
+      ]
+    }
+  ]
+}

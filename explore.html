@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore Research Publications</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-light: #3b82f6;
+      --secondary: #64748b;
+      --accent: #e2e8f0;
+      --background: #f8fafc;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --modal-overlay: rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background-color: var(--background);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .navbar {
+      background: white;
+      padding: 1rem 2rem;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .hero-section {
+      height: 70vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem;
+      background: linear-gradient(to bottom, white, var(--background));
+    }
+
+    .hero-title {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+      color: var(--text);
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: var(--text-light);
+      margin-bottom: 3rem;
+      max-width: 600px;
+    }
+
+    .search-container {
+      width: 100%;
+      max-width: 700px;
+      position: relative;
+      margin-bottom: 2rem;
+    }
+
+    .search-wrapper {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    #searchInput {
+      width: 100%;
+      padding: 1rem 1rem 1rem 3rem;
+      border: 2px solid var(--accent);
+      border-radius: 1rem;
+      font-size: 1.125rem;
+      transition: all 0.3s ease;
+      background: white;
+    }
+
+    #searchInput:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-light);
+      font-size: 1.25rem;
+    }
+
+    .filter-button {
+      padding: 1rem;
+      border: 2px solid var(--accent);
+      border-radius: 1rem;
+      background: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1rem;
+      color: var(--text);
+    }
+
+    .filter-button:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* Modal Styles */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--modal-overlay);
+      z-index: 1000;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      z-index: 1001;
+      width: 90%;
+      max-width: 600px;
+      animation: slideIn 0.3s ease;
+    }
+
+    .modal.filters-modal {
+      max-width: 500px;
+    }
+
+    .modal.detail-modal {
+      max-width: 800px;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .close-modal {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-light);
+    }
+
+    .modal-content {
+      margin-bottom: 1.5rem;
+    }
+
+    .filter-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .filter-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    .filter-group select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--accent);
+      border-radius: 0.5rem;
+      background: white;
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+    }
+
+    .button {
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .button-primary {
+      background: var(--primary);
+      color: white;
+      border: none;
+    }
+
+    .button-secondary {
+      background: var(--accent);
+      color: var(--text);
+      border: none;
+    }
+
+    /* Results Section */
+    .main-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .view-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .toggle-view {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .view-button {
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--accent);
+      background: white;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .view-button.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* Card View */
+    .results-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .result-card {
+      background: white;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .result-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Table View */
+    .table-view {
+      width: 100%;
+      background: white;
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .table-view th,
+    .table-view td {
+      padding: 1.25rem;
+      text-align: left;
+    }
+
+    .table-view th {
+      background: var(--background);
+      font-weight: 600;
+    }
+
+    .table-view tr {
+      border-bottom: 1px solid var(--accent);
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .table-view tr:hover {
+      background-color: var(--background);
+    }
+
+    .table-view tr:last-child {
+      border-bottom: none;
+    }
+
+    /* Detail Modal Content */
+    .detail-content {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .detail-header {
+      border-bottom: 1px solid var(--accent);
+      padding-bottom: 1rem;
+    }
+
+    .detail-type {
+      color: var(--primary);
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .detail-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .detail-meta {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .meta-item {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .meta-label {
+      font-weight: 500;
+      min-width: 120px;
+    }
+
+    .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .built-by {
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .heart {
+            color: #ef4444;
+        }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+      }
+
+      to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    /* Sample Articles Section */
+    .sample-articles {
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .sample-articles h2 {
+      margin-bottom: 2rem;
+      font-size: 1.5rem;
+      color: var(--text);
+    }
+
+    .sample-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="nav-content">
+      <a href="index.html" class="logo">Researchify</a>
+      <div class="nav-links">
+        <a href="index.html#features">Features</a>
+        <a href="explore.html">Explore</a>
+        <a href="#stats">Stats</a>
+        <a href="#" class="btn">Login</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero-section">
+    <h1 class="hero-title">Discover Research Publications</h1>
+    <p class="hero-subtitle">
+      Explore our comprehensive collection of academic publications, research papers, and patents
+    </p>
+    <div class="search-container">
+      <div class="search-wrapper">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" id="searchInput" placeholder="Search by title, author, or keywords..."
+          oninput="handleSearch()">
+        <button class="filter-button" onclick="openFiltersModal()">
+          <i class="fas fa-filter"></i>
+          Filters
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="sample-articles">
+    <h2>Featured Publications</h2>
+    <div class="sample-grid">
+      <!-- Sample articles will be populated here -->
+    </div>
+  </section>
+
+  <main class="main-container">
+    <div class="view-controls">
+      <div class="toggle-view">
+        <button class="view-button active" onclick="setView('grid')">
+          <i class="fas fa-th-large"></i> Grid
+        </button>
+        <button class="view-button" onclick="setView('table')">
+          <i class="fas fa-list"></i> Table
+        </button>
+      </div>
+    </div>
+
+    <div id="resultsContainer"></div>
+  </main>
+
+  <!-- Filters Modal -->
+  <div class="modal-overlay" id="filtersOverlay"></div>
+  <div class="modal filters-modal" id="filtersModal">
+    <div class="modal-header">
+      <h3 class="modal-title">Filter Publications</h3>
+      <button class="close-modal" onclick="closeFiltersModal()">&times;</button>
+    </div>
+    <div class="modal-content">
+      <div class="filter-group">
+        <label for="typeFilter">Publication Type</label>
+        <select id="typeFilter">
+          <option value="all">All Types</option>
+          <option value="journal">Journal Articles</option>
+          <option value="conference">Conference Papers</option>
+          <option value="patent">Patents</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="yearFilter">Year</label>
+        <select id="yearFilter">
+          <option value="all">All Years</option>
+          <option value="2024">2024</option>
+          <option value="2023">2023</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="indexingFilter">Indexing</label>
+        <select id="indexingFilter">
+          <option value="all">All Indexing</option>
+          <option value="sci">SCI</option>
+          <option value="scopus">Scopus</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="button button-secondary" onclick="resetFilters()">Reset</button>
+      <button class="button button-primary" onclick="applyFilters()">Apply Filters</button>
+    </div>
+  </div>
+
+  <!-- Detail Modal -->
+  <div class="modal detail-modal" id="detailModal">
+    <div class="modal-header">
+      <h3 class="modal-title">Publication Details</h3>
+      <button class="close-modal" onclick="closeDetailModal()">&times;</button>
+    </div>
+    <div class="modal-content" id="detailContent">
+      <!-- Detail content will be populated here -->
+    </div>
+  </div>
+  <break>
+  <footer>
+    <div class="footer-content">
+        <p>&copy; 2025 BNMIT Researchify. All rights reserved.</p>
+        <div class="built-by">
+            Built with <i class="fas fa-heart heart"></i> by SIGGRAPH BNMIT Team
+        </div>
+    </div>
+</footer>
+  <script>
+    const data = {
+      faculty: [
+        {
+          id: "1",
+          name: "Dr. Krishnamurthy G N",
+          publications: [
+            {
+              type: "journal",
+              title: "Machine learning-based approach for degree of milling analysis of Indian rice variety",
+              authors: ["S. Harini", "Saritha Chakrasali", "G.N. Krishnamurthy"],
+              journal: "International Journal of Agriculture Innovation, Technology and Globalisation",
+              year: 2023,
+              doi: "10.1504/IJAITG.2023.135052",
+              indexing: "non-SCI/scopus",
+              abstract: "This study presents a novel machine learning approach for analyzing the degree of milling in Indian rice varieties...",
+              keywords: ["Machine Learning", "Rice Milling", "Image Processing", "Agriculture Technology"],
+              citations: 12,
+              impact_factor: 2.4
+            }
+          ],
+          patents: [
+            {
+              title: "An Integrated precision Agriculture and farm security system",
+              number: "202441001591",
+              type: "utility",
+              status: "Granted",
+              filingDate: "2024-01-15",
+              grantDate: "2024-03-20",
+              inventors: ["G.N. Krishnamurthy", "R. Kumar", "S. Singh"],
+              description: "An innovative system combining precision agriculture techniques with advanced security measures..."
+            }
+          ]
+        },
+        // Add more sample data as needed
+      ]
+    };
+
+    let currentView = 'grid';
+    let activeFilters = {
+      type: 'all',
+      year: 'all',
+      indexing: 'all'
+    };
+
+    // Initialize featured articles
+    function initializeFeaturedArticles() {
+      const featuredContainer = document.querySelector('.sample-grid');
+      const featured = data.faculty.flatMap(f => f.publications).slice(0, 3);
+
+      featuredContainer.innerHTML = featured.map(pub => `
+                <div class="result-card" onclick="showDetailModal(${JSON.stringify(pub).replace(/"/g, '&quot;')})">
+                    <div class="detail-type">
+                        <i class="fas fa-book"></i> ${pub.type.toUpperCase()}
+                    </div>
+                    <h3 class="detail-title">${pub.title}</h3>
+                    <p>${pub.authors.join(', ')}</p>
+                    <p class="text-sm text-gray-500">${pub.journal} • ${pub.year}</p>
+                </div>
+            `).join('');
+    }
+
+    // Modal Controls
+    function openFiltersModal() {
+      document.getElementById('filtersModal').style.display = 'block';
+      document.getElementById('filtersOverlay').style.display = 'block';
+    }
+
+    function closeFiltersModal() {
+      document.getElementById('filtersModal').style.display = 'none';
+      document.getElementById('filtersOverlay').style.display = 'none';
+    }
+
+    function showDetailModal(publication) {
+      const modal = document.getElementById('detailModal');
+      const content = document.getElementById('detailContent');
+
+      content.innerHTML = `
+                <div class="detail-content">
+                    <div class="detail-header">
+                        <div class="detail-type">
+                            ${publication.type === 'patent' ?
+          '<i class="fas fa-award"></i> PATENT' :
+          '<i class="fas fa-book"></i> PUBLICATION'}
+                        </div>
+                        <h2 class="detail-title">${publication.title}</h2>
+                    </div>
+                    
+                    <div class="detail-meta">
+                        ${publication.type === 'patent' ? renderPatentDetails(publication) : renderPublicationDetails(publication)}
+                    </div>
+                </div>
+            `;
+
+      modal.style.display = 'block';
+      document.getElementById('filtersOverlay').style.display = 'block';
+    }
+
+    function renderPublicationDetails(pub) {
+      return `
+                <div class="meta-item">
+                    <span class="meta-label">Authors:</span>
+                    <span>${pub.authors.join(', ')}</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Journal:</span>
+                    <span>${pub.journal}</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Year:</span>
+                    <span>${pub.year}</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">DOI:</span>
+                    <span><a href="https://doi.org/${pub.doi}" target="_blank">${pub.doi}</a></span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Indexing:</span>
+                    <span>${pub.indexing}</span>
+                </div>
+                ${pub.abstract ? `
+                    <div class="meta-item">
+                        <span class="meta-label">Abstract:</span>
+                        <span>${pub.abstract}</span>
+                    </div>
+                ` : ''}
+                ${pub.keywords ? `
+                    <div class="meta-item">
+                        <span class="meta-label">Keywords:</span>
+                        <span>${pub.keywords.join(', ')}</span>
+                    </div>
+                ` : ''}
+            `;
+    }
+
+    function renderPatentDetails(patent) {
+      return `
+                <div class="meta-item">
+                    <span class="meta-label">Patent Number:</span>
+                    <span>${patent.number}</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Type:</span>
+                    <span>${patent.type}</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Status:</span>
+                    <span>${patent.status}</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Filing Date:</span>
+                    <span>${patent.filingDate}</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Grant Date:</span>
+                    <span>${patent.grantDate}</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Inventors:</span>
+                    <span>${patent.inventors.join(', ')}</span>
+                </div>
+                ${patent.description ? `
+                    <div class="meta-item">
+                        <span class="meta-label">Description:</span>
+                        <span>${patent.description}</span>
+                    </div>
+                ` : ''}
+            `;
+    }
+
+    function closeDetailModal() {
+      document.getElementById('detailModal').style.display = 'none';
+      document.getElementById('filtersOverlay').style.display = 'none';
+    }
+
+    // View Controls
+    function setView(view) {
+      currentView = view;
+      document.querySelectorAll('.view-button').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      event.currentTarget.classList.add('active');
+      renderResults(filterData());
+    }
+
+    function handleSearch() {
+      renderResults(filterData());
+    }
+
+    function applyFilters() {
+      activeFilters = {
+        type: document.getElementById('typeFilter').value,
+        year: document.getElementById('yearFilter').value,
+        indexing: document.getElementById('indexingFilter').value
+      };
+      renderResults(filterData());
+      closeFiltersModal();
+    }
+
+    function resetFilters() {
+      document.getElementById('typeFilter').value = 'all';
+      document.getElementById('yearFilter').value = 'all';
+      document.getElementById('indexingFilter').value = 'all';
+      activeFilters = {
+        type: 'all',
+        year: 'all',
+        indexing: 'all'
+      };
+      renderResults(filterData());
+    }
+
+    function filterData() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      let results = [];
+
+      data.faculty.forEach(faculty => {
+        // Filter publications
+        faculty.publications.forEach(pub => {
+          if (matchesFilters(pub) && matchesSearch(pub, searchTerm)) {
+            results.push({ ...pub, faculty: faculty.name });
+          }
+        });
+
+        // Filter patents
+        faculty.patents.forEach(patent => {
+          if (activeFilters.type === 'all' || activeFilters.type === 'patent') {
+            if (matchesSearch(patent, searchTerm)) {
+              results.push({ ...patent, type: 'patent', faculty: faculty.name });
+            }
+          }
+        });
+      });
+
+      return results;
+    }
+
+    function matchesFilters(pub) {
+      return (activeFilters.type === 'all' || activeFilters.type === pub.type) &&
+        (activeFilters.year === 'all' || activeFilters.year === pub.year.toString()) &&
+        (activeFilters.indexing === 'all' || activeFilters.indexing === pub.indexing.toLowerCase());
+    }
+
+    function matchesSearch(item, searchTerm) {
+      return item.title.toLowerCase().includes(searchTerm) ||
+        (item.authors && item.authors.some(author => author.toLowerCase().includes(searchTerm))) ||
+        (item.inventors && item.inventors.some(inventor => inventor.toLowerCase().includes(searchTerm)));
+    }
+
+    function renderResults(results) {
+      const container = document.getElementById('resultsContainer');
+
+      if (currentView === 'grid') {
+        container.innerHTML = `
+                    <div class="results-container">
+                        ${results.map(item => `
+                            <div class="result-card" onclick='showDetailModal(${JSON.stringify(item).replace(/"/g, '&quot;')})'>
+                                <div class="detail-type">
+                                    ${item.type === 'patent' ?
+            '<i class="fas fa-award"></i> PATENT' :
+            '<i class="fas fa-book"></i> ' + item.type.toUpperCase()}
+                                </div>
+                                <h3 class="detail-title">${item.title}</h3>
+                                <p>${item.type === 'patent' ?
+            `Inventors: ${item.inventors.join(', ')}` :
+            `Authors: ${item.authors.join(', ')}`}</p>
+                                <p class="text-sm text-gray-500">
+                                    ${item.type === 'patent' ?
+            `Patent No: ${item.number}` :
+            `${item.journal} • ${item.year}`}
+                                </p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+      } else {
+        container.innerHTML = `
+                    <table class="table-view">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Type</th>
+                                <th>Authors/Inventors</th>
+                                <th>Details</th>
+                                <th>Faculty</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${results.map(item => `
+                                <tr onclick='showDetailModal(${JSON.stringify(item).replace(/"/g, '&quot;')})'>
+                                    <td>${item.title}</td>
+                                    <td>${item.type.toUpperCase()}</td>
+                                    <td>${item.type === 'patent' ?
+            item.inventors.join(', ') :
+            item.authors.join(', ')}</td>
+                                    <td>${item.type === 'patent' ?
+            `Patent No: ${item.number}` :
+            `${item.journal} (${item.year})`}</td>
+                                    <td>${item.faculty}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+      }
+    }
+
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', () => {
+      initializeFeaturedArticles();
+      renderResults(filterData());
+    });
+
+    // Close modals when clicking overlay
+    document.getElementById('filtersOverlay').addEventListener('click', (e) => {
+      if (e.target === e.currentTarget) {
+        closeFiltersModal();
+        closeDetailModal();
+      }
+    });
+  </script>
+</body>
+
+</html>
